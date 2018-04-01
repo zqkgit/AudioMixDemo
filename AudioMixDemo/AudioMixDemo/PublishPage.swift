@@ -102,6 +102,9 @@ class PublishPage: UIViewController{
         // finishRecord 完成录音后，得到的音频格式是通过 AVAssetExportSession 设置为 AVAssetExportPresetAppleM4A 的.m4a格式的，这种文件 可以通过 AVPlyer播放。但是通过 FreeStreamer或者 DOUAudioStreamer 等流媒体播放器，都会播放失败，通过测试，可以将拼接的.m4a的文件，先转为 .caf,然后在通过 lame 转为 .mp3 文件，即可正常播放，为了效率，录制暂停（调用finishRecord，其实是完成录音，再次录制会把后面录制的和上一次的拼接）时，不必转换，可以在上传前进行转换
         stopTestPlayAndPlayBackGroundVoice()
 
+        let vc = NextViewController()
+        vc.mixAudioUrl = self.lastVedio
+
         if (recorder != nil) {
             self.finishRecord { [weak self] in
                 if (self?.totoalSeconds)! < 15 {
@@ -110,8 +113,6 @@ class PublishPage: UIViewController{
                 }
                 DispatchQueue.main.async {
 
-                    let vc = NextViewController()
-                    vc.mixAudioUrl = (self?.lastVedio)!
                     self?.navigationController?.pushViewController(vc, animated: true)
 
                 }
@@ -125,9 +126,7 @@ class PublishPage: UIViewController{
                 return
             }
             DispatchQueue.main.async {
-
-
-
+                self.navigationController?.pushViewController(vc, animated: true)
             }
         }
 
@@ -293,7 +292,7 @@ class PublishPage: UIViewController{
             make.size.equalTo(CGSize(width: 60, height: 14))
         }
         selectMusicSwitch = UISwitch.init(frame: .zero)
-        selectMusicSwitch.onTintColor = .grey2
+        selectMusicSwitch.onTintColor = .grey4
         selectMusicSwitch.thumbTintColor = .pink1
         hasAddMusicView.addSubview(selectMusicSwitch)
         selectMusicSwitch.snp.makeConstraints { (make) in
@@ -981,7 +980,6 @@ class PublishPage: UIViewController{
             testListenBtn.isSelected = false
         }
         else {
-            var error: Error? = nil
             self.player = try? AEAudioFilePlayer.init(url: URL.init(fileURLWithPath: self.lastVedio ))
             player?.removeUponFinish = true
             player?.completionBlock = {[weak self] in
@@ -1018,32 +1016,24 @@ class PublishPage: UIViewController{
     @objc func addMusicLabelTapped(_ tap: UITapGestureRecognizer) {
         //
         stopTestPlayAndPlayBackGroundVoice()
+        guard let path = Bundle.main.path(forResource: "Summer", ofType: "mp3") else {
+            return
+        }
+        let event = SelectMusicEvent(id:"SelectMusicEvent")
+        let filePath = path
+        event.musicUrl = filePath
+        event.musicTitle = "Summer-久石让"
 
         if (recorder != nil) {
-            self.finishRecord { [weak self] in
+            self.finishRecord {
                 DispatchQueue.main.async {
-                    guard let path = Bundle.main.path(forResource: "Summer", ofType: "mp3") else {
-                        return
-                    }
-                    let event = SelectMusicEvent(id:"SelectMusicEvent")
-                    let filePath = path
-                    event.musicUrl = filePath
-                    event.musicTitle = ""
                     EventBus.getDefault().post(event: event)
-
                 }
             }
 
         }
         else {
             DispatchQueue.main.async {
-                guard let path = Bundle.main.path(forResource: "Summer", ofType: "mp3") else {
-                    return
-                }
-                let event = SelectMusicEvent(id:"SelectMusicEvent")
-                let filePath = path
-                event.musicUrl = filePath
-                event.musicTitle = ""
                 EventBus.getDefault().post(event: event)
             }
         }
