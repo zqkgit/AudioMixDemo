@@ -25,4 +25,4 @@ AudioMixDemo
 
 
 
-![](https://raw.githubusercontent.com/wubianxiaoxian/AudioMixDemo/master/AudioMixDemo/AudioMixGif.gif)
+![](https://raw.githubusercontent.com/wubianxiaoxian/AudioMixDemo/master/AudioMixDemo/mixGif.gif)
