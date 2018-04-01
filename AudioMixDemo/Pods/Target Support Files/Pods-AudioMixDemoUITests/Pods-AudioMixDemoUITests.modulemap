@@ -1,0 +1,6 @@
+framework module Pods_AudioMixDemoUITests {
+  umbrella header "Pods-AudioMixDemoUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
