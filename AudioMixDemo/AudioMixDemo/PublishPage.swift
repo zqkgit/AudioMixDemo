@@ -18,7 +18,6 @@ class PublishPage: UIViewController{
     var recordTimeMarkLabel1:UILabel!
     var addWordLabel:UILabel!
     var addMusicLabel:UILabel!
-    var uploadRemarkLabel:PublishRemakrView!
     var testListenBtn:UIButton!
     var recordBrn:UIButton!
     var retryRecord:UIButton!
@@ -234,7 +233,6 @@ class PublishPage: UIViewController{
             make.right.equalTo(-16)
             make.size.equalTo(CGSize(width: 60, height: 14))
         }
-        uploadRemarkLabel.isHidden = true
 
         if puaudioPath == "" {
             addMusicLabel.snp.remakeConstraints { (make) in
@@ -261,7 +259,6 @@ class PublishPage: UIViewController{
     func hasAddMusic(_ audioUrl: String,audioTitle:String)  {
 
         addMusicLabel.isHidden = true
-        uploadRemarkLabel.isHidden = true
         puaudioPath = audioUrl
         hasAddMusicView = UIView()
         hasAddMusicView.backgroundColor = .white
@@ -561,13 +558,7 @@ class PublishPage: UIViewController{
         addMusicLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addMusicLabelTapped(_:))))
         let left = (self.view.frame.size.width - 240)/2
 
-        uploadRemarkLabel = PublishRemakrView.init(frame: CGRect(x: left, y: 0, width: 240, height: 97))
-        view.addSubview(uploadRemarkLabel)
-        uploadRemarkLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(left)
-            make.top.equalTo(addMusicLabel.snp.bottom).offset(GTSize_width(42))
 
-        }
 
         testListenLabel = UILabel.init(frame: .zero)
         testListenLabel.text = "试听"
@@ -1048,53 +1039,5 @@ class PublishPage: UIViewController{
     }
 
 
-}
-class PublishRemakrView: UIView {
-    var uploadImageView:UIImageView!
-    var uploadLabel:UILabel!
-    var remakrLabel:UILabel!
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        uploadImageView = UIImageView.init(frame: .zero)
-        uploadImageView.image = UIImage.init(named: "upload")
-        self.addSubview(uploadImageView)
-        uploadImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(0)
-            make.left.equalTo(65)
-            make.size.equalTo(CGSize(width: 23, height: 16))
-        }
-        uploadLabel = UILabel.init(frame: .zero)
-        uploadLabel.font = UIFont.systemFont(ofSize: 13)
-        uploadLabel.textColor = UIColor(red: 102.0 / 255.0, green: 102.0 / 255.0, blue: 102.0 / 255.0, alpha: 1.0)
-        self.addSubview(uploadLabel)
-        uploadLabel.text = "电脑上传"
-        uploadLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(uploadImageView.snp.centerY)
-            make.left.equalTo(uploadImageView.snp.right).offset(5)
-            make.size.equalTo(CGSize(width: 60, height: 14))
-        }
-
-        let remakrLabel:UILabel = UILabel(frame:.zero)
-        remakrLabel.font = UIFont.systemFont(ofSize: 12)
-        remakrLabel.textColor = UIColor(red: 153.0 / 255.0, green: 153.0 / 255.0, blue: 153.0 / 255.0, alpha: 1.0)
-        remakrLabel.textAlignment = .left
-        remakrLabel.numberOfLines = 0
-        remakrLabel.text = ""
-        addSubview(remakrLabel)
-        let attributedString = NSMutableAttributedString(string: "1、打开电脑端浏览器，输入hi.sdo.com\n2、登录您的账号\n3、点击“上传声音”按钮，即可上传本地声音\n4、上传后，手机APP会同步您的声音数据")
-        attributedString.addAttributes([
-            NSAttributedStringKey.font:UIFont.systemFont(ofSize: 12),
-            NSAttributedStringKey.foregroundColor:UIColor(red: 233.0 / 255.0, green: 69.0 / 255.0, blue: 200.0 / 255.0, alpha: 1.0)
-            ], range: NSRange(location: 13, length: 10))
-        remakrLabel.attributedText = attributedString
-        remakrLabel.snp.makeConstraints { (make) in
-            make.left.right.equalTo(0)
-            make.top.equalTo(uploadLabel.snp.bottom).offset(18)
-        }
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
