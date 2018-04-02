@@ -20,9 +20,12 @@ AudioMixDemo
 * iOS 9.0 or higher
 
 
+#### 感谢 [@kevin930119](https://github.com/kevin930119) 提供的 系统的 .m4a 转 .caf 的方法，他写了一个流媒体播放器 [KVAudioStreamer](https://github.com/kevin930119/KVAudioStreamer) 支持多种多种音频格式（mp3、flac、wav、m4a...）播放，有需要的可以试用一下
 
 
 
 
 
-![](https://raw.githubusercontent.com/wubianxiaoxian/AudioMixDemo/master/AudioMixDemo/mixGif.gif)
+
+
+![](http://ww2.sinaimg.cn/large/0060lm7Tly1fpy3dtzzcsg30a70jjnj1.gif)
